@@ -1,4 +1,5 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, io};
+
 fn main() {
     println!("Hello, world!");
     let numbers = vec![5, 2, 34, 5, 6, 3, 5, 11, 10, 7, 8, 5];
@@ -12,6 +13,7 @@ fn main() {
     println!("Mode is {}", md);
     let word = "Ndeta";
     println!("{}", convert_to_pig_latin(word));
+    directory();
 }
 
 fn mean(numbers: &[i32]) -> f64 {
@@ -64,4 +66,39 @@ fn convert_to_pig_latin(word: &str) -> String {
         return format!("{}-{}", word, "hay");
     }
     format!("{}-{}ay", rest, first)
+}
+
+//Using a hash map and vectors, create a text interface to allow a user to add employee names to a department in a company. For example, “Add Sally to Engineering” or “Add Amir to Sales.” Then let the user retrieve a list of all people in a department or all people in the company by department, sorted alphabetically.
+fn directory() {
+    let mut employee_dir = HashMap::new();
+    loop {
+        println!("Enter a command like \"  Add <person> to <Department>\"");
+        let mut command = String::new();
+        io::stdin()
+            .read_line(&mut command)
+            .expect("failed to read command");
+        let command: &str = command.trim();
+        let mut iter = command.split_whitespace();
+        let person = iter.nth(1);
+        let person = match person {
+            Some(p) => p,
+            None => {
+                println!("Please enter a valid number");
+                continue;
+            }
+        };
+        let department = iter.nth(1);
+        let department = match department {
+            Some(p) => p,
+            None => {
+                println!("Please enter a valid number");
+                continue;
+            }
+        };
+        let employees = employee_dir
+            .entry(String::from(department))
+            .or_insert(vec![]);
+        employees.push(String::from(person));
+        println!("Employee directory: {:?}", employee_dir)
+    }
 }
