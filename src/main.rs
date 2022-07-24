@@ -1,11 +1,15 @@
+use std::collections::HashMap;
 fn main() {
     println!("Hello, world!");
-    let numbers = vec![1, 2, 34, 5, 6, 3, 33, 11, 10, 7, 8, 5];
+    let numbers = vec![5, 2, 34, 5, 6, 3, 5, 11, 10, 7, 8, 5];
     let average = mean(&numbers);
     println!("Average is {}", average);
     //Mean of numbers
     let median = median(&numbers);
     println!("Median is {}", median);
+    mode(&numbers);
+    let md = mode(&numbers);
+    println!("Mode is {}", md);
 }
 
 fn mean(numbers: &[i32]) -> f64 {
@@ -31,5 +35,19 @@ fn median(numbers: &[i32]) -> f64 {
     sorted_numbers[middle] as f64
 }
 fn mode(numbers: &[i32]) -> i32 {
-    6
+    let mut map = HashMap::new();
+    for num in numbers {
+        let count = map.entry(num).or_insert(0);
+        *count += 1;
+    }
+    println!("Map of occurances {:?}", map);
+    let mut max_value = 0;
+    let mut mode = 0;
+    for (key, value) in map {
+        if value > max_value {
+            max_value = value;
+            mode = *key;
+        }
+    }
+    mode
 }
