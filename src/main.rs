@@ -10,6 +10,8 @@ fn main() {
     mode(&numbers);
     let md = mode(&numbers);
     println!("Mode is {}", md);
+    let word = "Ndeta";
+    println!("{}", convert_to_pig_latin(word));
 }
 
 fn mean(numbers: &[i32]) -> f64 {
@@ -40,6 +42,8 @@ fn mode(numbers: &[i32]) -> i32 {
         let count = map.entry(num).or_insert(0);
         *count += 1;
     }
+    // let sum=numbers.iter().fold(0, |acc, curr|acc+curr);
+    // sum as f64/numbers.len() as f64;
     println!("Map of occurances {:?}", map);
     let mut max_value = 0;
     let mut mode = 0;
@@ -50,4 +54,14 @@ fn mode(numbers: &[i32]) -> i32 {
         }
     }
     mode
+}
+//You take the first letter of a word (e.g. Hello = H) and use the last letters (e.g. Hello = ello) and add 'ay' to the first letter (e.g. Hello = Ello hay). Words that start with a vowel (A, E, I, O, U) simply have "ay" appended to the end of the word
+fn convert_to_pig_latin(word: &str) -> String {
+    let vowels = ["a", "e", "i", "o", "u"];
+    let (first, rest) = word.split_at(1);
+    let is_vowel = vowels.contains(&first);
+    if is_vowel {
+        return format!("{}-{}", word, "hay");
+    }
+    format!("{}-{}ay", rest, first)
 }
